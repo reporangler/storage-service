@@ -29,7 +29,19 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         Auth::viaRequest('repo', function (Request $request) {
+            $authClient = app(\RepoRangler\Services\AuthClient::class);
+            $authHeader = $request->header('Authorization');
 
+            if (empty($authHeader)) {
+                return new \RepoRangler\Entity\PublicUser();
+            }
+
+            try {
+                $response = $authClient->check($authHeader);
+                return new \RepoRangler\Entity\User($response);
+            } catch (\Exception $e) {
+                return new \RepoRangler\Entity\PublicUser();
+            }
         });
     }
 }

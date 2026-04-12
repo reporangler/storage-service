@@ -3,41 +3,18 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Contracts\Auth\Factory as Auth;
-use Illuminate\Http\Request;
+use Illuminate\Auth\AuthenticationException;
 
 class Authenticate
 {
-    /**
-     * The authentication guard factory instance.
-     *
-     * @var \Illuminate\Contracts\Auth\Factory
-     */
-    protected $auth;
-
-    /**
-     * Create a new middleware instance.
-     *
-     * @param  \Illuminate\Contracts\Auth\Factory  $auth
-     * @return void
-     */
-    public function __construct(Auth $auth)
+    public function handle($request, Closure $next, ...$guards)
     {
-        $this->auth = $auth;
-    }
+        $guard = $guards[0] ?? null;
 
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @param  string|null  $guard
-     * @return mixed
-     */
-    public function handle(Request $request, Closure $next, $guard = null)
-    {
-        if(!$this->auth->guard($guard)->user()){
-            throw new \Exception("No user could be created, not even a public user");
+        $user = auth()->guard($guard)->user();
+
+        if (!$user) {
+            throw new AuthenticationException('Unauthenticated.');
         }
 
         return $next($request);

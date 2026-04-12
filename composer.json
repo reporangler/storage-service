@@ -1,7 +1,7 @@
 {
     "name": "reporangler/storage-service",
     "description": "The File Storage Service for the Repo Rangler project",
-    "keywords": ["reporangler", "storage", "lumen"],
+    "keywords": ["reporangler", "storage", "laravel"],
     "license": "MIT",
     "type": "project",
     "repositories": [
@@ -11,11 +11,12 @@
         }
     ],
     "require": {
-        "php": ">=7.1.3|^8.0",
-        "laravel/lumen-framework": "^9.0",
+        "php": "^8.2",
+        "laravel/framework": "^11.0",
         "reporangler/lib-reporangler": "*"
     },
     "require-dev": {
+        "laravel/tinker": "^2.9",
         "phpunit/phpunit": "^9.0",
         "mockery/mockery": "^1.0"
     },
