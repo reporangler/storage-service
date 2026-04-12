@@ -27,6 +27,7 @@ services:
       dockerfile: docker/phpfpm/Dockerfile
     networks:
       - storage_service
+      - repo_rangler_proxy
     volumes:
       - .:/www
       - ../lib-reporangler:/lib-reporangler:ro
